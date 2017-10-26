@@ -1,8 +1,27 @@
-hash: da8048ac359a1e813ff42ad8f26ed154511c6357a198e20b8e187ce97d8ebe7b
-updated: 2017-10-26T12:37:57.900591505+02:00
+hash: 200eb16595d41c4bdf9420c75e1ff546feb4c8ed00b1d576e5bee9f58d00ca4e
+updated: 2017-10-26T17:33:27.981112264+02:00
 imports:
+- name: github.com/jmoiron/sqlx
+  version: d9bd385d68c068f1fabb5057e3dedcbcbb039d0f
+  subpackages:
+  - reflectx
 - name: github.com/julienschmidt/httprouter
   version: 8c199fb6259ffc1af525cc3ad52ee60ba8359669
+- name: github.com/kelseyhightower/envconfig
+  version: f611eb38b3875cc3bd991ca91c51d06446afa14c
+- name: github.com/sirupsen/logrus
+  version: f006c2ac4710855cf0f916dd6b77acf6b048dc6e
 - name: github.com/TobiEiss/goMiddlewareChain
   version: aacc5d2b87dbc6a497377d0b3b81e391901c3e83
+  subpackages:
+  - templates
+- name: golang.org/x/crypto
+  version: 81e90905daefcd6fd217b62423c0908922eadb30
+  subpackages:
+  - ssh/terminal
+- name: golang.org/x/sys
+  version: 7ddbeae9ae08c6a06a59597f0c9edbc5ff2444ce
+  subpackages:
+  - unix
+  - windows
 testImports: []

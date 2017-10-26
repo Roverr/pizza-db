@@ -17,3 +17,4 @@ vendor
 node_modules
 public/**/*
 !public/.gitkeep
+.envrc
