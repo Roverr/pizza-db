@@ -1,0 +1,8 @@
+hash: da8048ac359a1e813ff42ad8f26ed154511c6357a198e20b8e187ce97d8ebe7b
+updated: 2017-10-26T12:37:57.900591505+02:00
+imports:
+- name: github.com/julienschmidt/httprouter
+  version: 8c199fb6259ffc1af525cc3ad52ee60ba8359669
+- name: github.com/TobiEiss/goMiddlewareChain
+  version: aacc5d2b87dbc6a497377d0b3b81e391901c3e83
+testImports: []
