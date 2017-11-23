@@ -25,6 +25,9 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack --progress -p"
+    "build": "webpack --progress -p",
+    "build-db": "docker build -t pizza-db ./sql",
+    "start-db": "docker run -e MYSQL_ROOT_PASSWORD=$PIZZA_DB_PASSWORD pizza-db",
+    "db": "npm run build-db && npm run start-db"
   }
 }
