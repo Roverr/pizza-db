@@ -41,6 +41,7 @@ func generateIngredientsForDB(howMany int) []models.IngredientDB {
 	return ingredients
 }
 
+// Generate is the main function for generating random data and inserting it into the database
 func generate(db database.Model) error {
 	var err error
 	customers := generateCustomersForDB(10)
@@ -53,6 +54,10 @@ func generate(db database.Model) error {
 	}
 	ingredients := generateIngredientsForDB(20)
 	if err = db.BulkCreateIngredients(ingredients); err != nil {
+		return err
+	}
+	_, err = db.GetIngredients()
+	if err != nil {
 		return err
 	}
 	return nil

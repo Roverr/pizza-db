@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/Roverr/pizza-db/app/database/models"
-	"github.com/davecgh/go-spew/spew"
 )
 
 // BulkCreateCustomer is for creating multiple customers
@@ -31,7 +30,6 @@ func (m *Model) GetCustomers() ([]models.CustomerDB, error) {
     id, name, email, password
   FROM customers`
 	if err := m.conn.Select(&customers, query); err != nil && err != sql.ErrNoRows {
-		spew.Dump(err)
 		return nil, err
 	}
 	return customers, nil
