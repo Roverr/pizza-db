@@ -18,6 +18,7 @@ type DatabaseConfig struct {
 // Config contains the configuration of this application.
 type Config struct {
 	ListenAddress string `envconfig:"LISTEN_ADDRESS" default:"127.0.0.1:8080" desc:"Listen on this address for incoming connections"`
+	DataClean     bool   `envconfig:"DATA_CLEAN" default:"false" desc:"Indicates if the application is running in data clean mode"`
 	DatabaseConfig
 }
 

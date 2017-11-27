@@ -9,6 +9,7 @@ import (
 	"github.com/Roverr/pizza-db/app/handlers"
 	"github.com/TobiEiss/goMiddlewareChain"
 	"github.com/TobiEiss/goMiddlewareChain/templates"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
 )
 

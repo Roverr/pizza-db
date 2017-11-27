@@ -28,6 +28,8 @@
     "build": "webpack --progress -p",
     "build-db": "docker build -t pizza-db ./sql",
     "start-db": "docker run -e MYSQL_ROOT_PASSWORD=$PIZZA_DB_PASSWORD pizza-db",
+    "clean-db": "PIZZA_DATA_CLEAN=true pizza-generation",
+    "generate": "pizza-generation",
     "db": "npm run build-db && npm run start-db"
   }
 }
