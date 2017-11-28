@@ -38,3 +38,22 @@ func (m *Model) GetIngredients() ([]models.Ingredient, error) {
 	}
 	return ingredients, nil
 }
+
+// GetLastIngredients is for getting the last given number of ingredients from db
+func (m *Model) GetLastIngredients(limit int) ([]models.Ingredient, error) {
+	var ingredientsDB []models.IngredientDB
+	query := fmt.Sprintf(`
+  SELECT
+    id, name, available, gluten_free
+  FROM ingredients
+  ORDER by id desc
+  LIMIT %d`, limit)
+	if err := m.conn.Select(&ingredientsDB, query); err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+	var ingredients []models.Ingredient
+	for _, ing := range ingredientsDB {
+		ingredients = append(ingredients, ing.GetIngredientForm())
+	}
+	return ingredients, nil
+}

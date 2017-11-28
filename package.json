@@ -27,7 +27,7 @@
     "start": "webpack-dev-server",
     "build": "webpack --progress -p",
     "build-db": "docker build -t pizza-db ./sql",
-    "start-db": "docker run -e MYSQL_ROOT_PASSWORD=$PIZZA_DB_PASSWORD pizza-db",
+    "start-db": "docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=$PIZZA_DB_PASSWORD -d pizza-db",
     "clean-db": "PIZZA_DATA_CLEAN=true pizza-generation",
     "generate": "pizza-generation",
     "db": "npm run build-db && npm run start-db"

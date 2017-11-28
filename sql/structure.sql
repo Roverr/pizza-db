@@ -23,8 +23,8 @@ CREATE TABLE pizza_ingredients (
   ingredient_id int(11) NOT NULL,
   KEY pizza_id (pizza_id),
   KEY ingredient_id (ingredient_id),
-  CONSTRAINT fk_pizza_id FOREIGN KEY (pizza_id) REFERENCES pizzas (id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT fk_ingredient_id FOREIGN KEY (ingredient_id) REFERENCES ingredients (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT fk_pizza_id FOREIGN KEY (pizza_id) REFERENCES pizzas (id) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT fk_ingredient_id FOREIGN KEY (ingredient_id) REFERENCES ingredients (id) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE customers (
@@ -53,6 +53,7 @@ CREATE TABLE orders (
 CREATE TABLE pizzas_for_orders (
   order_id int(11) NOT NULL,
   pizza_id int(11) NOT NULL,
+  number_of_pizzas int(11) NOT NULL,
   KEY pizza_id (pizza_id),
   KEY order_id (order_id),
   CONSTRAINT fk_pizzas_id FOREIGN KEY (pizza_id) REFERENCES pizzas (id) ON DELETE CASCADE ON UPDATE NO ACTION,

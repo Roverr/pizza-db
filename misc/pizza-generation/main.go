@@ -2,6 +2,8 @@ package main
 
 import (
 	"errors"
+	"math/rand"
+	"time"
 
 	"github.com/Roverr/pizza-db/app/config"
 	"github.com/Roverr/pizza-db/app/database"
@@ -29,8 +31,10 @@ func main() {
 	if conn == nil {
 		log.Fatal(errors.New("Connection is invalid to the database"))
 	}
+	rand.Seed(time.Now().Unix())
 	err = generate(*db)
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Infoln("Everything is generated correctly")
 }
