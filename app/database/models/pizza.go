@@ -12,3 +12,9 @@ type PizzaIngredient struct {
 	PizzaID      int64 `json:"pizzaId" db:"pizza_id"`
 	IngredientID int64 `json:"ingredientId" db:"ingredient_id"`
 }
+
+// ExtendedPizza describes a pizza which has been extended with ingredients informations
+type ExtendedPizza struct {
+	Pizza
+	Ingrients []Ingredient `json:"ingredients"`
+}

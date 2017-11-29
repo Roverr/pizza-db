@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from 'axios';
+import { Button } from 'reactstrap';
 
-export default class Button extends React.Component {
+export default class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.renderPizza = this.props.renderPizza;
@@ -11,11 +11,11 @@ export default class Button extends React.Component {
   }
   render() {
     return (
-      <button
-        className="btn btn-default"
+      <Button
+        color="danger"
         onClick={this.fetchPizzas.bind(this)}>
       Pizzas
-      </button>
+    </Button>
     );
   }
 }

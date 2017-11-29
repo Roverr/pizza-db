@@ -31,6 +31,7 @@ export default class Table extends React.Component {
     }
     const resp = await axios.get(this.url);
     this.data = resp.data.data;
+    console.log(resp.data);
     this.forceUpdate();
     return
   }

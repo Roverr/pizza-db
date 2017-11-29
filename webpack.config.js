@@ -7,7 +7,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     path: path.resolve('public'),
     filename: 'index_bundle.js',
@@ -17,6 +17,13 @@ module.exports = {
         { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
         { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
         { test: /\.css$/, loader: 'style-loader!css-loader' },
+        {
+          test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+          },
+      },
     ],
   },
   resolve: {

@@ -20,7 +20,7 @@ type ListPizza struct {
 
 // Handler is responsible for the request handling
 func (lp ListPizza) Handler(response *goMiddlewareChain.Response, request *http.Request, params httprouter.Params) {
-	pizzas, err := lp.db.GetPizzas()
+	pizzas, err := lp.db.GetExtendedPizzas()
 	if err != nil {
 		response.Status.Code = http.StatusInternalServerError
 		return
