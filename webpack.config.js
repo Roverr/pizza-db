@@ -7,11 +7,12 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: ['babel-polyfill', './src/index.jsx'],
   output: {
     path: path.resolve('public'),
     filename: 'index_bundle.js',
   },
+  devtool: 'sourcemap',
   module: {
       loaders: [
         { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
