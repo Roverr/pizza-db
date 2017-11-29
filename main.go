@@ -11,6 +11,7 @@ import (
 	"github.com/TobiEiss/goMiddlewareChain/templates"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -19,14 +20,19 @@ func main() {
 		log.Fatal(err)
 	}
 
-	_, err = database.New(&config.DatabaseConfig)
+	var db *database.Model
+	db, err = database.New(&config.DatabaseConfig)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	router := httprouter.New()
-	statusHandler := handlers.NewStatus()
-	router.GET("/api/status", goMiddlewareChain.RequestChainHandler(templates.JSONResponseHandler, statusHandler.Handler))
+	status := handlers.NewStatus()
+	router.GET("/api/status", goMiddlewareChain.RequestChainHandler(templates.JSONResponseHandler, status.Handler))
+
+	listPizza := handlers.NewListPizza(*db)
+	router.GET("/api/pizzas", goMiddlewareChain.RequestChainHandler(templates.JSONResponseHandler, listPizza.Handler))
 	router.ServeFiles("/ui/*filepath", http.Dir("./public"))
-	log.Fatal(http.ListenAndServe(":8080", router))
+	handler := cors.Default().Handler(router)
+	log.Fatal(http.ListenAndServe(config.ListenAddress, handler))
 }
