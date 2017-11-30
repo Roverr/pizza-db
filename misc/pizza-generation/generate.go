@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/Roverr/pizza-db/app/database"
@@ -38,7 +39,7 @@ func generateIngredientsForDB(howMany int, allAvailable bool) []models.Ingredien
 			available = true
 		}
 		ingredient := models.Ingredient{
-			Name:       gofakeit.Name() + gofakeit.BeerName(),
+			Name:       gofakeit.BeerName() + gofakeit.BuzzWord(),
 			Available:  available,
 			GlutenFree: gofakeit.Bool(),
 		}
@@ -50,10 +51,20 @@ func generateIngredientsForDB(howMany int, allAvailable bool) []models.Ingredien
 func generatePizzasForDB(howMany int) []models.Pizza {
 	pizzas := make([]models.Pizza, howMany)
 	for i := range pizzas {
-		pizzas[i].Name = gofakeit.Name() + gofakeit.City()
+		pizzas[i].Name = fmt.Sprintf("%s %s", gofakeit.City(), gofakeit.JobLevel())
 		pizzas[i].Price = int64(gofakeit.Number(5, 70))
 	}
 	return pizzas
+}
+
+func twoRandomNumbersInRange(a int, b int) (int, int) {
+	for {
+		i := gofakeit.Number(a, b)
+		y := gofakeit.Number(a, b)
+		if i != y {
+			return i, y
+		}
+	}
 }
 
 // Generate is the main function for generating random data and inserting it into the database
@@ -112,9 +123,14 @@ func generate(db database.Model) error {
 			CompletedAt: &completed,
 			CustomerID:  cust.ID,
 		}
+		first, second := twoRandomNumbersInRange(0, len(pizzas)-1)
 		details := []models.OrderDetail{
 			models.OrderDetail{
-				PizzaType: pizzas[gofakeit.Number(0, len(pizzas)-1)].ID,
+				PizzaType: pizzas[first].ID,
+				HowMany:   int8(gofakeit.Number(1, 3)),
+			},
+			models.OrderDetail{
+				PizzaType: pizzas[second].ID,
 				HowMany:   int8(gofakeit.Number(1, 3)),
 			},
 		}

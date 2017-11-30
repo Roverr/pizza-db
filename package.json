@@ -33,12 +33,15 @@
     "webpack-dev-server": "^2.9.5"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "npm run build-app && run-app",
+    "dev": "webpack-dev-server",
     "build": "webpack --progress -p",
     "build-db": "docker build -t pizza-db ./sql",
     "start-db": "docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=$PIZZA_DB_PASSWORD -d pizza-db",
     "clean-db": "PIZZA_DATA_CLEAN=true pizza-generation",
     "generate": "pizza-generation",
-    "db": "npm run build-db && npm run start-db"
+    "db": "npm run build-db && npm run start-db",
+    "build-app": "make alpine && docker build -t pizza-app .",
+    "run-app": "docker run -e PIZZA_DB_URL=$PIZZA_DB_URL -e PIZZA_LISTEN_ADDRESS=:80 -e PIZZA_DB_PASSWORD=$PIZZA_DB_PASSWORD -p 8080:80 pizza-app"
   }
 }

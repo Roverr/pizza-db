@@ -30,5 +30,5 @@ class ViewHandler {
   }
 }
 
-const vh = new ViewHandler('http://localhost:8081', ReactDOM);
+const vh = new ViewHandler('http://192.168.99.100:8080', ReactDOM);
 ReactDOM.render(<Menu viewHandler={vh} />, document.getElementById('menu'));
