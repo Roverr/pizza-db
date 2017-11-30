@@ -17,3 +17,14 @@ type OrderDetail struct {
 	HowMany   int8  // indicates how many pizza is being ordered
 	PizzaType int64 // indicates the ID of the pizza being ordered
 }
+
+// ExtendedOrder describes the customer facing order
+type ExtendedOrder struct {
+	Price       int64              `json:"price"`
+	Address     string             `json:"address"`
+	ID          int64              `json:"id"`
+	Customer    IdentifiedCustomer `json:"customer"`
+	Pizzas      []PizzaNumber      `json:"pizzas"`
+	StartedAt   time.Time          `json:"startedAt"`
+	CompletedAt *time.Time         `json:"completedAt"`
+}

@@ -12,3 +12,9 @@ type CustomerDB struct {
 	ID       int64  `json:"id" db:"id"`
 	Password string `json:"-" db:"password"`
 }
+
+// IdentifiedCustomer describes a customer with all of its identification
+type IdentifiedCustomer struct {
+	Name string `json:"name"`
+	ID   int64  `json:"id"`
+}

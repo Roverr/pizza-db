@@ -34,7 +34,7 @@ func (m *Model) InsertOrder(order models.Order, details []models.OrderDetail) er
 		order.StartedAt,
 		order.CompletedAt,
 		order.Price,
-		order.StartedAt,
+		order.Address,
 	)
 	if err != nil {
 		log.Error(err)
@@ -67,4 +67,78 @@ func (m *Model) InsertOrder(order models.Order, details []models.OrderDetail) er
 		return err
 	}
 	return tx.Commit()
+}
+
+// GetOrders lists all the orders made by useres
+func (m *Model) GetOrders() ([]models.ExtendedOrder, error) {
+	var dbData []struct {
+		OrderPrice    int64      `db:"order_price"`
+		OrderAddress  string     `db:"order_address"`
+		OrderID       int64      `db:"order_id"`
+		CustomerName  string     `db:"customer_name"`
+		CustomerID    int64      `db:"customer_id"`
+		PizzaName     string     `db:"pizza_name"`
+		NumberOfPizza int8       `db:"number_of_pizzas"`
+		StartedAt     time.Time  `db:"started_at"`
+		CompletedAt   *time.Time `db:"completed_at"`
+	}
+	query := `
+  SELECT
+    orders.price as order_price,
+    orders.address as order_address,
+    orders.id as order_id,
+    orders.started_at as started_at,
+    orders.completed_at as completed_at,
+    customers.name as customer_name,
+    customers.id as customer_id,
+    pizzas.name as pizza_name,
+    pizzas_for_orders.number_of_pizzas as number_of_pizzas
+  FROM customers
+  JOIN orders on orders.customer_id = customers.id
+  JOIN pizzas_for_orders on pizzas_for_orders.order_id = orders.id
+  JOIN pizzas on pizzas_for_orders.pizza_id = pizzas.id;`
+	err := m.conn.Select(&dbData, query)
+	if err != nil {
+		return nil, err
+	}
+
+	orders := map[int64]models.ExtendedOrder{}
+	pizzaNumbers := map[int64][]models.PizzaNumber{}
+	for _, data := range dbData {
+		orderID := data.OrderID
+		pNumber := models.PizzaNumber{
+			Name:   data.PizzaName,
+			Number: data.NumberOfPizza,
+		}
+		_, ok := orders[orderID]
+		if !ok {
+			orders[orderID] = models.ExtendedOrder{
+				ID: orderID,
+				Customer: models.IdentifiedCustomer{
+					ID:   data.CustomerID,
+					Name: data.CustomerName,
+				},
+				StartedAt:   data.StartedAt,
+				CompletedAt: data.CompletedAt,
+				Address:     data.OrderAddress,
+				Price:       data.OrderPrice,
+				Pizzas:      []models.PizzaNumber{},
+			}
+		}
+		element, ok := pizzaNumbers[orderID]
+		if !ok {
+			pizzaNumbers[orderID] = []models.PizzaNumber{pNumber}
+		}
+		pizzaNumbers[orderID] = append(element, pNumber)
+	}
+	for id := range orders {
+		element := orders[id]
+		element.Pizzas = pizzaNumbers[id]
+		orders[id] = element
+	}
+	var arrayConv []models.ExtendedOrder
+	for _, order := range orders {
+		arrayConv = append(arrayConv, order)
+	}
+	return arrayConv, nil
 }

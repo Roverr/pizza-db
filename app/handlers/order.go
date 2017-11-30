@@ -9,24 +9,24 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// NewListPizza creates a new ListPizza structure
-func NewListPizza(db database.Model) *ListPizza {
-	return &ListPizza{db}
+// NewListOrder creates a new ListOrder structure
+func NewListOrder(db database.Model) *ListOrder {
+	return &ListOrder{db}
 }
 
-// ListPizza describes a handler class which is responsible to handle GET /pizza calls
-type ListPizza struct {
+// ListOrder describes a handler class which is responsible to handle GET /orders calls
+type ListOrder struct {
 	db database.Model
 }
 
 // Handler is responsible for the request handling
-func (lp ListPizza) Handler(response *goMiddlewareChain.Response, request *http.Request, params httprouter.Params) {
-	pizzas, err := lp.db.GetExtendedPizzas()
+func (lp ListOrder) Handler(response *goMiddlewareChain.Response, request *http.Request, params httprouter.Params) {
+	orders, err := lp.db.GetOrders()
 	if err != nil {
 		log.Errorln(err)
 		response.Status.Code = http.StatusInternalServerError
 		return
 	}
 	response.Status.Code = http.StatusOK
-	response.Data = pizzas
+	response.Data = orders
 }

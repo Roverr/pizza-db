@@ -8,31 +8,40 @@ export default class Table extends React.Component {
   constructor(props) {
     super(props);
     this.url = this.props.url;
-    this.data = [];
+    this.state = { items: [] };
     this.columns = [];
+  }
+
+  getTable() {
+    return (
+    <ReactTable
+      className='-striped'
+      data={this.state.items}
+      columns={this.columns}
+    />);
+  }
+
+  componentDidMount() {
+    this.fetch();
   }
 
   render() {
     this.setColumns();
-    this.fetch();
-    return (<ReactTable
-      data={this.data}
-      columns={this.columns}
-    />);
+    return this.getTable();
   }
 
   setColumns() {
     this.columns = [];
   }
 
+  final(data) { return data }
+
   async fetch() {
-    if (this.data.length > 1) {
+    if (this.state.items > 1) {
       return;
     }
     const resp = await axios.get(this.url);
-    this.data = resp.data.data;
-    console.log(resp.data);
-    this.forceUpdate();
+    this.setState({ items: this.final(resp.data.data) })
     return
   }
 }

@@ -39,6 +39,28 @@ func (m *Model) GetIngredients() ([]models.Ingredient, error) {
 	return ingredients, nil
 }
 
+// GetIngredientsForPizza is for getting ingredients for a given pizza
+func (m *Model) GetIngredientsForPizza(pizzaID int64) ([]models.Ingredient, error) {
+	var ingredientsDB []models.IngredientDB
+	query := `
+  SELECT
+    ingredients.id,
+    ingredients.name,
+    ingredients.available,
+    ingredients.gluten_free
+  FROM ingredients
+  JOIN pizza_ingredients on pizza_ingredients.ingredient_id = ingredients.id
+  WHERE pizza_ingredients.pizza_id=?;`
+	if err := m.conn.Select(&ingredientsDB, query, pizzaID); err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+	var ingredients []models.Ingredient
+	for _, ing := range ingredientsDB {
+		ingredients = append(ingredients, ing.GetIngredientForm())
+	}
+	return ingredients, nil
+}
+
 // GetLastIngredients is for getting the last given number of ingredients from db
 func (m *Model) GetLastIngredients(limit int) ([]models.Ingredient, error) {
 	var ingredientsDB []models.IngredientDB

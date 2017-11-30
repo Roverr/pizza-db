@@ -18,3 +18,9 @@ type ExtendedPizza struct {
 	Pizza
 	Ingrients []Ingredient `json:"ingredients"`
 }
+
+// PizzaNumber describes a pizza's name and the number of the pizzas in the order from that type
+type PizzaNumber struct {
+	Name   string `json:"name"`
+	Number int8   `json:"number"`
+}
